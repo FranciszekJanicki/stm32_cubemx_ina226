@@ -5,13 +5,11 @@ target_sources(app PRIVATE
 )
 
 target_include_directories(app PRIVATE 
-    ${CMAKE_SOURCE_DIR}/app/ina226
+    ${CMAKE_DIR}/stm32cubemx
 )
 
 target_link_libraries(app PRIVATE
     stm32cubemx
-    ina226
-    stm32_utility
 )
 
 target_compile_options(app PUBLIC
