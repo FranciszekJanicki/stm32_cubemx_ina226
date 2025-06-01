@@ -59,7 +59,7 @@ typedef enum {
     INA226_AVERAGING_MODE_256_SAMPLES = 0b101,
     INA226_AVERAGING_MODE_512_SAMPLES = 0b110,
     INA226_AVERAGING_MODE_1024_SAMPLES = 0b111,
-} ina226_averaging_mode_t;
+} ina226_avg_t;
 
 typedef enum {
     INA226_BUS_VOLTAGE_CONVERSION_TIME_140US = 0b000,
@@ -70,7 +70,7 @@ typedef enum {
     INA226_BUS_VOLTAGE_CONVERSION_TIME_2MS116 = 0b101,
     INA226_BUS_VOLTAGE_CONVERSION_TIME_4MS156 = 0b110,
     INA226_BUS_VOLTAGE_CONVERSION_TIME_8MS244 = 0b111,
-} ina226_bus_voltage_conversion_time_t;
+} ina226_vbus_ct_t;
 
 typedef enum {
     INA226_SHUNT_VOLTAGE_CONVERSION_TIME_140US = 0b000,
@@ -81,7 +81,7 @@ typedef enum {
     INA226_SHUNT_VOLTAGE_CONVERSION_TIME_2MS116 = 0b101,
     INA226_SHUNT_VOLTAGE_CONVERSION_TIME_4MS156 = 0b110,
     INA226_SHUNT_VOLTAGE_CONVERSION_TIME_8MS244 = 0b111,
-} ina226_shunt_voltage_conversion_time_t;
+} ina226_vsh_ct_t;
 
 typedef enum {
     INA226_OPERATING_MODE_POWER_DOWN = 0b000,
@@ -91,7 +91,7 @@ typedef enum {
     INA226_OPERATING_MODE_SHUNT_CONTINUOUS = 0b101,
     INA226_OPERATING_MODE_BUS_CONTINUOUS = 0b110,
     INA226_OPERATING_MODE_SHUNT_BUS_CONTINUOUS = 0b111,
-} ina226_operating_mode_t;
+} ina226_mode_t;
 
 typedef struct {
     float32_t current_scale;
