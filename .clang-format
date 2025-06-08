@@ -3,14 +3,14 @@
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
-ColumnLimit: 120
+ColumnLimit: 100
 
 # Indentation and Formatting Rules
 ConstructorInitializerIndentWidth: 4
 AccessModifierOffset: -4
 IndentAccessModifiers: false
 IndentCaseLabels: true
-IndentExternBlock: Indent
+NamespaceIndentation: All
 
 # Alignment Settings
 AlignAfterOpenBracket: Align
@@ -30,7 +30,7 @@ BraceWrapping:
   AfterControlStatement: false
   AfterEnum: false
   AfterNamespace: false
-  BeforeCatch: true
+  BeforeCatch: false
   BeforeElse: false
   IndentBraces: false
   AfterFunction: true
@@ -75,3 +75,5 @@ PointerAlignment: Left
 IndentWrappedFunctionNames: false
 IndentFunctionDeclarationAfterType: true
 Standard: c++20
+
+PenaltyReturnTypeOnItsOwnLine: 1000
