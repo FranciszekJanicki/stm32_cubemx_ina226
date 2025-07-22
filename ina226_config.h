@@ -109,8 +109,9 @@ inline float32_t ina226_current_range_to_scale(float32_t current_range)
     return current_range / (float32_t)(1U << 15U);
 }
 
-inline float32_t ina226_scale_and_shunt_resistance_to_calibration(float32_t scale,
-                                                                  float32_t shunt_resistance)
+inline float32_t ina226_scale_and_shunt_resistance_to_calibration(
+    float32_t scale,
+    float32_t shunt_resistance)
 {
     return 0.00512F / (scale * shunt_resistance);
 }
@@ -120,9 +121,10 @@ inline float32_t ina226_current_to_power_scale(float32_t current_scale)
     return 25.0F * current_scale;
 }
 
-inline float32_t ina226_calibration_to_corrected_calibration(float32_t calibration,
-                                                             float32_t shunt_current,
-                                                             float32_t device_current)
+inline float32_t ina226_calibration_to_corrected_calibration(
+    float32_t calibration,
+    float32_t shunt_current,
+    float32_t device_current)
 {
     return calibration * shunt_current / device_current;
 }

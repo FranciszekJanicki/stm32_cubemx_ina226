@@ -66,7 +66,8 @@ ina226_err_t ina226_deinitialize(ina226_t* ina226)
     return err;
 }
 
-ina226_err_t ina226_get_current_scaled(ina226_t const* ina226, float32_t* scaled)
+ina226_err_t ina226_get_current_scaled(ina226_t const* ina226,
+                                       float32_t* scaled)
 {
     assert(ina226 && scaled);
 
@@ -79,7 +80,8 @@ ina226_err_t ina226_get_current_scaled(ina226_t const* ina226, float32_t* scaled
     return err;
 }
 
-ina226_err_t ina226_get_bus_voltage_scaled(ina226_t const* ina226, float32_t* scaled)
+ina226_err_t ina226_get_bus_voltage_scaled(ina226_t const* ina226,
+                                           float32_t* scaled)
 {
     assert(ina226 && scaled);
 
@@ -92,7 +94,8 @@ ina226_err_t ina226_get_bus_voltage_scaled(ina226_t const* ina226, float32_t* sc
     return err;
 }
 
-ina226_err_t ina226_get_shunt_voltage_scaled(ina226_t const* ina226, float32_t* scaled)
+ina226_err_t ina226_get_shunt_voltage_scaled(ina226_t const* ina226,
+                                             float32_t* scaled)
 {
     assert(ina226 && scaled);
 
@@ -115,7 +118,8 @@ ina226_err_t ina226_get_power_scaled(ina226_t const* ina226, float32_t* scaled)
 
     ina226_err_t err = ina226_get_power_raw(ina226, &raw);
 
-    *scaled = (float32_t)raw * ina226_current_to_power_scale(ina226->config.current_scale);
+    *scaled = (float32_t)raw *
+              ina226_current_to_power_scale(ina226->config.current_scale);
 
     return err;
 }
@@ -176,13 +180,17 @@ ina226_err_t ina226_get_power_raw(ina226_t const* ina226, int16_t* raw)
     return err;
 }
 
-ina226_err_t ina226_get_config_reg(ina226_t const* ina226, ina226_config_reg_t* reg)
+ina226_err_t ina226_get_config_reg(ina226_t const* ina226,
+                                   ina226_config_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err = ina226_bus_read_data(ina226, INA226_REG_ADDRESS_CONFIG, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_CONFIG,
+                                            data,
+                                            sizeof(data));
 
     reg->rst = (data[0] >> 7U) & 0x01U;
     reg->avg = (data[0] >> 1U) & 0x07U;
@@ -194,13 +202,17 @@ ina226_err_t ina226_get_config_reg(ina226_t const* ina226, ina226_config_reg_t* 
     return err;
 }
 
-ina226_err_t ina226_set_config_reg(ina226_t const* ina226, ina226_config_reg_t const* reg)
+ina226_err_t ina226_set_config_reg(ina226_t const* ina226,
+                                   ina226_config_reg_t const* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err = ina226_bus_read_data(ina226, INA226_REG_ADDRESS_CONFIG, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_CONFIG,
+                                            data,
+                                            sizeof(data));
 
     data[0] &= ~((0x01U << 7U) | (0x07U << 1U) | 0x80U);
     data[1] &= ~((0x03U << 6U) | (0x07U << 3U) | 0x07U);
@@ -212,87 +224,110 @@ ina226_err_t ina226_set_config_reg(ina226_t const* ina226, ina226_config_reg_t c
     data[1] |= (reg->vsh_ct & 0x07U) << 3U;
     data[1] |= reg->mode & 0x07U;
 
-    err |= ina226_bus_write_data(ina226, INA226_REG_ADDRESS_CONFIG, data, sizeof(data));
+    err |= ina226_bus_write_data(ina226,
+                                 INA226_REG_ADDRESS_CONFIG,
+                                 data,
+                                 sizeof(data));
 
     return err;
 }
 
-ina226_err_t ina226_get_shunt_voltage_reg(ina226_t const* ina226, ina226_shunt_voltage_reg_t* reg)
+ina226_err_t ina226_get_shunt_voltage_reg(ina226_t const* ina226,
+                                          ina226_shunt_voltage_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err =
-        ina226_bus_read_data(ina226, INA226_REG_ADDRESS_SHUNT_VOLTAGE, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_SHUNT_VOLTAGE,
+                                            data,
+                                            sizeof(data));
 
     reg->voltage = (int16_t)(((data[0] & 0xFF) << 8) | (data[0] & 0xFF));
 
     return err;
 }
 
-ina226_err_t ina226_get_bus_voltage_reg(ina226_t const* ina226, ina226_bus_voltage_reg_t* reg)
+ina226_err_t ina226_get_bus_voltage_reg(ina226_t const* ina226,
+                                        ina226_bus_voltage_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err =
-        ina226_bus_read_data(ina226, INA226_REG_ADDRESS_BUS_VOLTAGE, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_BUS_VOLTAGE,
+                                            data,
+                                            sizeof(data));
 
     reg->voltage = (int16_t)(((data[0] & 0xFF) << 8) | (data[0] & 0xFF));
 
     return err;
 }
 
-ina226_err_t ina226_get_power_reg(ina226_t const* ina226, ina226_power_reg_t* reg)
+ina226_err_t ina226_get_power_reg(ina226_t const* ina226,
+                                  ina226_power_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err = ina226_bus_read_data(ina226, INA226_REG_ADDRESS_POWER, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_POWER,
+                                            data,
+                                            sizeof(data));
 
     reg->power = (int16_t)(((data[0] & 0xFF) << 8) | (data[0] & 0xFF));
 
     return err;
 }
 
-ina226_err_t ina226_get_current_reg(ina226_t const* ina226, ina226_current_reg_t* reg)
+ina226_err_t ina226_get_current_reg(ina226_t const* ina226,
+                                    ina226_current_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err = ina226_bus_read_data(ina226, INA226_REG_ADDRESS_CURRENT, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_CURRENT,
+                                            data,
+                                            sizeof(data));
 
     reg->current = (int16_t)(((data[0] & 0xFF) << 8) | (data[0] & 0xFF));
 
     return err;
 }
 
-ina226_err_t ina226_get_calibration_reg(ina226_t const* ina226, ina226_calibration_reg_t* reg)
+ina226_err_t ina226_get_calibration_reg(ina226_t const* ina226,
+                                        ina226_calibration_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err =
-        ina226_bus_read_data(ina226, INA226_REG_ADDRESS_CALIBRATION, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_CALIBRATION,
+                                            data,
+                                            sizeof(data));
 
     reg->fs = (int16_t)(((data[0] & 0x7F) << 7) | (data[1] & 0xFF));
 
     return err;
 }
 
-ina226_err_t ina226_set_calibration_reg(ina226_t const* ina226, ina226_calibration_reg_t const* reg)
+ina226_err_t ina226_set_calibration_reg(ina226_t const* ina226,
+                                        ina226_calibration_reg_t const* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err =
-        ina226_bus_read_data(ina226, INA226_REG_ADDRESS_CALIBRATION, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_CALIBRATION,
+                                            data,
+                                            sizeof(data));
 
     data[0] &= ~0x7F;
     data[1] &= ~0xFF;
@@ -303,14 +338,17 @@ ina226_err_t ina226_set_calibration_reg(ina226_t const* ina226, ina226_calibrati
     return err;
 }
 
-ina226_err_t ina226_get_mask_enable_reg(ina226_t const* ina226, ina226_mask_enable_reg_t* reg)
+ina226_err_t ina226_get_mask_enable_reg(ina226_t const* ina226,
+                                        ina226_mask_enable_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err =
-        ina226_bus_read_data(ina226, INA226_REG_ADDRESS_MASK_ENABLE, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_MASK_ENABLE,
+                                            data,
+                                            sizeof(data));
 
     reg->sol = (data[0] >> 7U) & 0x01U;
     reg->sul = (data[0] >> 6U) & 0x01U;
@@ -327,18 +365,22 @@ ina226_err_t ina226_get_mask_enable_reg(ina226_t const* ina226, ina226_mask_enab
     return err;
 }
 
-ina226_err_t ina226_set_mask_enable_reg(ina226_t const* ina226, ina226_mask_enable_reg_t const* reg)
+ina226_err_t ina226_set_mask_enable_reg(ina226_t const* ina226,
+                                        ina226_mask_enable_reg_t const* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err =
-        ina226_bus_read_data(ina226, INA226_REG_ADDRESS_MASK_ENABLE, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_MASK_ENABLE,
+                                            data,
+                                            sizeof(data));
 
-    data[0] &= ~((0x01U << 7U) | (0x01U << 6U) | (0x01U << 5U) | (0x01U << 4U) | (0x01U << 3U) |
-                 (0x01U << 2U));
-    data[1] &= ~((0x01 << 4U) | (0x01 << 3U) | (0x01 << 2U) | (0x01 << 1U) | 0x01);
+    data[0] &= ~((0x01U << 7U) | (0x01U << 6U) | (0x01U << 5U) | (0x01U << 4U) |
+                 (0x01U << 3U) | (0x01U << 2U));
+    data[1] &=
+        ~((0x01 << 4U) | (0x01 << 3U) | (0x01 << 2U) | (0x01 << 1U) | 0x01);
 
     data[0] |= (reg->sol & 0x01U) << 7U;
     data[0] |= (reg->sul & 0x01U) << 6U;
@@ -352,26 +394,33 @@ ina226_err_t ina226_set_mask_enable_reg(ina226_t const* ina226, ina226_mask_enab
     data[1] |= (reg->apol & 0x01U) << 1U;
     data[1] |= reg->len & 0x01U;
 
-    err |= ina226_bus_write_data(ina226, INA226_REG_ADDRESS_MASK_ENABLE, data, sizeof(data));
+    err |= ina226_bus_write_data(ina226,
+                                 INA226_REG_ADDRESS_MASK_ENABLE,
+                                 data,
+                                 sizeof(data));
 
     return err;
 }
 
-ina226_err_t ina226_get_alert_limit_reg(ina226_t const* ina226, ina226_alert_limit_reg_t* reg)
+ina226_err_t ina226_get_alert_limit_reg(ina226_t const* ina226,
+                                        ina226_alert_limit_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err =
-        ina226_bus_read_data(ina226, INA226_REG_ADDRESS_ALERT_LIMIT, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_ALERT_LIMIT,
+                                            data,
+                                            sizeof(data));
 
     reg->aul = (int16_t)(((data[0] & 0xFF) << 8) | (data[1] & 0xFF));
 
     return err;
 }
 
-ina226_err_t ina226_set_alert_limit_reg(ina226_t const* ina226, ina226_alert_limit_reg_t const* reg)
+ina226_err_t ina226_set_alert_limit_reg(ina226_t const* ina226,
+                                        ina226_alert_limit_reg_t const* reg)
 {
     assert(ina226 && reg);
 
@@ -380,7 +429,10 @@ ina226_err_t ina226_set_alert_limit_reg(ina226_t const* ina226, ina226_alert_lim
     data[0] |= (uint8_t)((reg->aul >> 8) & 0xFF);
     data[1] |= (uint8_t)(reg->aul & 0xFF);
 
-    return ina226_bus_write_data(ina226, INA226_REG_ADDRESS_ALERT_LIMIT, data, sizeof(data));
+    return ina226_bus_write_data(ina226,
+                                 INA226_REG_ADDRESS_ALERT_LIMIT,
+                                 data,
+                                 sizeof(data));
 }
 
 ina226_err_t ina226_get_manufacturer_id_reg(ina226_t const* ina226,
@@ -390,21 +442,27 @@ ina226_err_t ina226_get_manufacturer_id_reg(ina226_t const* ina226,
 
     uint8_t data[2] = {};
 
-    ina226_err_t err =
-        ina226_bus_read_data(ina226, INA226_REG_ADDRESS_MANUFACTURER_ID, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_MANUFACTURER_ID,
+                                            data,
+                                            sizeof(data));
 
     reg->mid = ((data[0] & 0xFFU) << 8U) | (data[1] & 0xFFU);
 
     return err;
 }
 
-ina226_err_t ina226_get_die_id_reg(ina226_t const* ina226, ina226_die_id_reg_t* reg)
+ina226_err_t ina226_get_die_id_reg(ina226_t const* ina226,
+                                   ina226_die_id_reg_t* reg)
 {
     assert(ina226 && reg);
 
     uint8_t data[2] = {};
 
-    ina226_err_t err = ina226_bus_read_data(ina226, INA226_REG_ADDRESS_DIE_ID, data, sizeof(data));
+    ina226_err_t err = ina226_bus_read_data(ina226,
+                                            INA226_REG_ADDRESS_DIE_ID,
+                                            data,
+                                            sizeof(data));
 
     reg->did = (data[0] & 0xFFU) | ((data[1] >> 4U) & 0x0FU);
     reg->rid = (data[1] >> 0U) & 0x0FU;
