@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     uint8_t rst : 1;
     uint8_t avg : 3;
@@ -57,5 +61,9 @@ typedef struct {
     uint16_t did : 12;
     uint8_t rid : 4;
 } ina226_die_id_reg_t;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // INA226_INA226_REGISTERS_H

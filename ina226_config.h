@@ -4,6 +4,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define INA226_MANUFACTURER_ID 0b0101010001001001
 #define INA226_BUS_VOLTAGE_SCALE 41.0F / (float32_t)(1U << 15U)
 #define INA226_SHUNT_VOLTAGE_SCALE 41.0F / (float32_t)(1U << 15U)
@@ -128,5 +132,9 @@ inline float32_t ina226_calibration_to_corrected_calibration(
 {
     return calibration * shunt_current / device_current;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // INA226_INA226_CONFIG_H

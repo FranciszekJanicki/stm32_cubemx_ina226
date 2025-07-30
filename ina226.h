@@ -4,6 +4,10 @@
 #include "ina226_config.h"
 #include "ina226_registers.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     ina226_config_t config;
     ina226_interface_t interface;
@@ -64,5 +68,9 @@ ina226_err_t ina226_get_manufacturer_id_reg(ina226_t const* ina226,
 
 ina226_err_t ina226_get_die_id_reg(ina226_t const* ina226,
                                    ina226_die_id_reg_t* reg);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // INA226_INA226_H
